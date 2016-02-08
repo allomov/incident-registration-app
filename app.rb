@@ -22,9 +22,11 @@ class App < Sinatra::Base
     	'/vendor/jquery/dist/jquery.min.js',
     	'/vendor/backstretch/jquery.backstretch.js',
     	'/javascripts/main.js' ]
-    css :application, ['assets/stylesheets/*.css']
+    css :application, '/stylesheets/application.css', [
+      # 'stylesheets/flipclock.css',
+      '/stylesheets/main.css' ]
     js_compression :jsmin
-    css_compression :sass
+    css_compression :simple
   end
 
   get "/" do

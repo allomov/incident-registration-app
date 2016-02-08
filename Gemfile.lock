@@ -34,6 +34,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
+    sass (3.2.19)
     serve (1.5.2)
       activesupport (~> 3.2.12)
       i18n
@@ -71,6 +72,7 @@ DEPENDENCIES
   rack-test
   rake (= 10.4.2)
   rspec
+  sass (~> 3.2.14)
   serve (= 1.5.2)
   sinatra
   sinatra-assetpack
