@@ -14,5 +14,5 @@ group :development do
 end
 
 group :test do
-  gem 'rack-test'
+  gem "rack-test"
 end
