@@ -4,3 +4,5 @@ public/stylesheets/
 public/vendor/
 tmp
 stub.yml
+pipeline/pipeline.yml
+

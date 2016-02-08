@@ -1,0 +1,7 @@
+platform: linux
+
+image: docker:///ruby#2.3.0
+
+run:
+  path: echo
+  args: [hello world]

@@ -1,0 +1,71 @@
+---
+resources:
+- name: github-repository
+  type: git
+  source:
+    uri: https://github.com/allomov/incident-registration-app.git
+    branch: master
+- name: cf-staging
+  type: cf
+  source:
+    api: {{cf-api}}
+    username: {{cf-username}}
+    password: {{cf-password}}
+    organization: {{cf-org}}
+    space: staging
+    skip_cert_check: true
+- name: cf-production
+  type: cf
+  source:
+    api: {{cf-api}}
+    username: {{cf-username}}
+    password: {{cf-password}}
+    organization: {{cf-org}}
+    space: production
+    skip_cert_check: false
+
+jobs:
+- name: unit-tests
+  plan:
+  - get: github-repository
+    trigger: true
+  - task: unit-tests
+    file: github-repository/pipeline/ci/unit-tests.yml
+- name: functional-tests
+  plan:
+  - get: github-repository
+    trigger: true
+  - task: functional-tests
+    file: github-repository/pipeline/ci/functional-tests.yml
+- name: deploy-to-stagging-cf
+  plan:
+  - get: github-repository
+    passed:
+      - unit-tests
+      - functional-tests
+    trigger: true
+  - put: cf-staging
+    params:
+      name: incident-registration-staging
+      path: github-repository
+      command: rake assetpack:precompile && rackup -p $PORT
+- name: acceptance-tests
+  plan:
+  - get: github-repository
+    passed: ["deploy-to-stagging-cf"]
+    trigger: true
+  - task: acceptance-tests
+    file: github-repository/pipeline/ci/acceptance-tests.yml
+- name: deploy-to-production-cf
+  plan:
+  - get: github-repository
+    passed: ["acceptance-tests"]
+    trigger: true
+  - put: cf-production
+    params:
+      name: incident-registration
+      path: github-repository
+      command: rake assetpack:precompile && rackup -p $PORT
+
+
+
