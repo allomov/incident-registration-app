@@ -1,0 +1,23 @@
+{
+  "name": "incident-registration-app",
+  "homepage": "https://github.com/allomov/incident-registration-app",
+  "authors": [
+    "A.S. Lomoff <lomov.as@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.0",
+    "backstretch": "^2.0.4"
+  }
+}

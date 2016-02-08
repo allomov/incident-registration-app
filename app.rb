@@ -1,18 +1,34 @@
+ENV['RACK_ENV'] ||= 'development'
+
+require 'bundler'
+Bundler.require :default, ENV['RACK_ENV'].to_sym
+
 require "rubygems"
 require "sinatra"
 require "slim"
 require "sinatra/assetpack"
 
-register Sinatra::AssetPack
 
-assets do
-  js :application, ['assets/javascripts/*.js']
-  css :application, ['assets/stylesheets/*.css']
 
-  js_compression :jsmin
-  css_compression :sass
-end
+class App < Sinatra::Base
 
-get "/" do
-  slim :index
+  register Sinatra::AssetPack
+
+  assets do
+    serve '/javascripts',  from: 'assets/javascripts'
+    serve '/vendor',  from: 'bower_components'
+    serve '/stylesheets', from: 'assets/stylesheets'
+    js :application, '/javascripts/application.js', [
+    	'/vendor/jquery/dist/jquery.min.js',
+    	'/vendor/backstretch/jquery.backstretch.js',
+    	'/javascripts/main.js' ]
+    css :application, ['assets/stylesheets/*.css']
+    js_compression :jsmin
+    css_compression :sass
+  end
+
+  get "/" do
+    slim :index
+  end
+  
 end
