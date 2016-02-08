@@ -4,6 +4,7 @@ gem "sinatra"
 gem "thin"
 gem "slim"
 gem "sinatra-assetpack"
+gem "coffee-script"
 gem "serve", "1.5.2"
 
 group :development do
