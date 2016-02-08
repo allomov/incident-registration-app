@@ -1,2 +1,2 @@
 jQuery -> 
-  $.backstretch("/images/wall.jpg")
+  $.backstretch("/images/background.jpg")
