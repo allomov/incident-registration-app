@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
 cd github-repository
+
+echo $(whoami)
+echo $(pwd)
+echo $HOME
+
 gem install bundler --no-ri --no-rdoc
 bundle install
 bundle exec rake SPEC=spec/features/root_spec.rb
