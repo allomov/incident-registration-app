@@ -57,9 +57,12 @@ jobs:
   - get: github-repository
     passed: ["deploy-to-stagging-cf"]
     trigger: true
+  - get: cf-staging
+    passed: ["deploy-to-stagging-cf"]
+    trigger: true
   - task: acceptance-tests
     file: github-repository/pipeline/ci/acceptance-tests.yml
-- name: deploy-to-production-cf
+- name: blue-green-deployment-to-production-cf
   plan:
   - get: github-repository
     passed: ["acceptance-tests"]
