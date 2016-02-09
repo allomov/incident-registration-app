@@ -1,6 +1,6 @@
 ---
 platform: linux
-image: docker:///allomov/ruby#hd-demo
+image: docker:///allomov/ruby#ci-demo
 inputs:
   - name: github-repository
 run:
