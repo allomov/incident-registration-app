@@ -1,6 +1,6 @@
 ---
 platform: linux
-image: docker:///ruby#1.4.2
+image: docker:///ruby#2.3.0
 inputs:
   - name: github-repository
 run:
