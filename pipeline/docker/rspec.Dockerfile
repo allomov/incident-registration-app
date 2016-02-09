@@ -13,7 +13,7 @@ RUN ln -s  /usr/bin/nodejs  /usr/bin/node
 
 RUN gem install bundler --no-ri --no-rdoc
 
-COPY ../../../incident-registration-app /incident-registration-app
+COPY incident-registration-app /incident-registration-app
 
 WORKDIR /incident-registration-app
-RUN bundle install
+RUN bundle install --system

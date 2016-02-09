@@ -50,9 +50,8 @@ jobs:
     trigger: true
   - put: cf-staging
     params:
-      name: incident-registration-staging
       path: github-repository
-      command: rake assetpack:precompile && rackup -p $PORT
+      manifest: github-repository/pipeline/manifests/staging-manifest.yml
 - name: acceptance-tests
   plan:
   - get: github-repository
@@ -67,9 +66,8 @@ jobs:
     trigger: true
   - put: cf-production
     params:
-      name: incident-registration
       path: github-repository
-      command: rake assetpack:precompile && rackup -p $PORT
+      manifest: github-repository/pipeline/manifests/production-manifest.yml
 
 
 
