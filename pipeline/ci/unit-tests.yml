@@ -1,7 +1,7 @@
+---
 platform: linux
-
-image: docker:///ruby#2.3.0
-
+image: docker:///ruby#1.4.2
+inputs:
+  - name: github-repository
 run:
-  path: echo
-  args: [hello world]
+  path: ./github-repository/pipeline/bin/run-unit-tests
