@@ -69,7 +69,6 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-script
-  rack-test
   rake (= 10.4.2)
   rspec
   sass (~> 3.2.14)

@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
 app_endpoint=$1
-
 cd github-repository
-gem install bundler --no-ri --no-rdoc
-bundle install
 bundle exec rake SPEC=spec/acceptance/contnent_spec.rb
