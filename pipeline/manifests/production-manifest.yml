@@ -1,6 +1,6 @@
 ---
 applications:
-  name: incident-registration
+- name: incident-registration
   memory: 1G
   instances: 3
   command: rake assetpack:precompile && rackup -p $PORT

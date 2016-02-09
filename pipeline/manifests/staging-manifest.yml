@@ -1,6 +1,6 @@
 ---
 applications:
-  name: staging-incident-registration
+- name: staging-incident-registration
   memory: 1G
   instances: 1
   command: rake assetpack:precompile && rackup -p $PORT
