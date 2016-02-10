@@ -60,7 +60,7 @@ trap on_fail ERR
 DOMAIN=${B_DOMAIN:-$(cat $MANIFEST | grep domain: | awk '{print $2}')}
 
 # create the GREEN application
-cf push -p $app_folder $GREEN -f $MANIFEST -n $GREEN
+cf push $GREEN -f $MANIFEST -n $GREEN -p $app_folder
 # ensure it starts
 curl --fail -I "https://${GREEN}.${DOMAIN}"
 
