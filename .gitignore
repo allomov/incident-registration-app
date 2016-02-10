@@ -6,3 +6,4 @@ tmp
 stub.yml
 pipeline.yml
 Dockerfile
+.envrc
