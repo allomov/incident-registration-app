@@ -1,7 +1,0 @@
----
-platform: linux
-image: docker:///allomov/ruby#ci-demo
-inputs:
-  - name: github-repository
-run:
-  path: ./github-repository/pipeline/bin/run-functional-tests

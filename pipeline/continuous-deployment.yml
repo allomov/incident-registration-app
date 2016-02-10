@@ -34,13 +34,13 @@ jobs:
   - get: github-repository
     trigger: true
   - task: unit-tests
-    file: github-repository/pipeline/ci/unit-tests.yml
+    file: github-repository/pipeline/tasks/unit-tests.yml
 - name: functional-tests
   plan:
   - get: github-repository
     trigger: true
   - task: functional-tests
-    file: github-repository/pipeline/ci/functional-tests.yml
+    file: github-repository/pipeline/tasks/functional-tests.yml
 - name: deploy-to-stagging-cf
   plan:
   - get: github-repository
@@ -61,12 +61,14 @@ jobs:
     passed: ["deploy-to-stagging-cf"]
     trigger: true
   - task: acceptance-tests
-    file: github-repository/pipeline/ci/acceptance-tests.yml
+    file: github-repository/pipeline/tasks/acceptance-tests.yml
 - name: blue-green-deployment-to-production-cf
   plan:
   - get: github-repository
     passed: ["acceptance-tests"]
     trigger: true
+  - task: blue-green-deployment-to-production-cf
+    file: github-repository/pipeline/tasks/functional-tests.yml
   - put: cf-production
     params:
       path: github-repository
