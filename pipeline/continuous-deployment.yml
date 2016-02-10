@@ -30,7 +30,7 @@ jobs:
       - functional-tests
     trigger: true
   - task: deploy-to-stagging-cf
-    file: github-repository/pipeline/tasks/deploy-to-stagging.yml
+    file: github-repository/pipeline/tasks/deploy-to-staging.yml
 - name: acceptance-tests
   plan:
   - get: github-repository
