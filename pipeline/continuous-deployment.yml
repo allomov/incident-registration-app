@@ -6,9 +6,6 @@ resources:
     uri: https://github.com/allomov/incident-registration-app.git
     branch: master
 
-# ------------
-
-
 jobs:
 - name: unit-tests
   plan:

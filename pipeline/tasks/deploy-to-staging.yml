@@ -6,10 +6,10 @@ inputs:
 run:
   path: ./github-repository/pipeline/bin/blue-green-cf-deployment
   args:
-  - {{cf-api}}
-  - {{cf-username}}
-  - {{cf-password}}
-  - {{cf-org}}
+  - "{{cf-api}}"
+  - "{{cf-username}}"
+  - "{{cf-password}}"
+  - "{{cf-org}}"
   - "staging"
   - "staging-incident-registration"
   - "github-repository"
