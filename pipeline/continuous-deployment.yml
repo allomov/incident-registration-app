@@ -19,7 +19,7 @@ jobs:
     trigger: true
   - task: functional-tests
     file: github-repository/pipeline/tasks/functional-tests.yml
-- name: deploy-to-stagging-cf
+- name: deploy-to-staging-cf
   plan:
   - get: github-repository
     passed:
@@ -28,10 +28,20 @@ jobs:
     trigger: true
   - task: deploy-to-stagging-cf
     file: github-repository/pipeline/tasks/deploy-to-staging.yml
+    config:
+      params:
+        cf_api: {{cf-api}}
+        cf_username: {{cf-username}}
+        cf_password: {{cf-password}}
+        cf_org: {{cf-org}}
+        cf_space: "staging"
+        app_name: "staging-incident-registration"
+        app_folder: "github-repository"
+
 - name: acceptance-tests
   plan:
   - get: github-repository
-    passed: ["deploy-to-stagging-cf"]
+    passed: ["deploy-to-staging-cf"]
     trigger: true
   - task: acceptance-tests
     file: github-repository/pipeline/tasks/acceptance-tests.yml
@@ -42,4 +52,12 @@ jobs:
     trigger: true
   - task: blue-green-deployment-to-production-cf
     file: github-repository/pipeline/tasks/deploy-to-production.yml
-
+    config:
+      params:
+        cf_api: {{cf-api}}
+        cf_username: {{cf-username}}
+        cf_password: {{cf-password}}
+        cf_org: {{cf-org}}
+        cf_space: "production"
+        app_name: "incident-registration"
+        app_folder: "github-repository"

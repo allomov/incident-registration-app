@@ -3,14 +3,14 @@ platform: linux
 image: docker:///allomov/cf-cli-only-ubuntu#6.9.0
 inputs:
   - name: github-repository
+params:
+  cf_api:
+  cf_username:
+  cf_password:
+  cf_org:
+  cf_space:
+  app_name:
+  app_folder:
 run:
   path: ./github-repository/pipeline/bin/cf-blue-green-deployment
-  args:
-  - "{{cf-api}}"
-  - "{{cf-username}}"
-  - "{{cf-password}}"
-  - "{{cf-org}}"
-  - "staging"
-  - "staging-incident-registration"
-  - "github-repository"
-  - "./github-repository/pipeline/manifests/staging-manifest.yml"
+  args: ["./github-repository/pipeline/manifests/staging-manifest.yml"]

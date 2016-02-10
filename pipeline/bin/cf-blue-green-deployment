@@ -2,20 +2,29 @@
 
 # Blue-green deployment script. Usage:
 #
-#   ./cf-blue-green-deployment <cf-api> <cf-username> <cf-password> <cf-org> <cf-space> <app-name> <app-folder> <app-manifest>
+#   ./cf-blue-green-deployment <app-manifest>
 
 set -e
 set -o pipefail
 set -x
 
-cf_api=$1
-cf_username=$2
-cf_password=$3
-cf_org=$4
-cf_space=$5
-app_name=$6
-app_folder=$7
-app_manifest=$8
+if  [ -z "$cf_api" ] || [ -z "$cf_username" ] || [ -z "$cf_password" ] || \
+	[ -z "$cf_org" ] || [ -z "$cf_space" ] || [ -z "$app_name" ] || [ -z "$app_folder" ]; then
+	echo "You need to define following environment variables: "
+	echo
+	echo "    cf_api, cf_username, cf_password, cf_org, cf_space, app_name, app_folder"
+	echo
+	exit 1
+fi
+
+app_manifest=$1
+echo
+echo app_manifest
+echo $app_manifest
+echo
+echo
+echo $(env)
+
 
 cf api --skip-ssl-validation $cf_api
 cf login -u $cf_username -p $cf_password
