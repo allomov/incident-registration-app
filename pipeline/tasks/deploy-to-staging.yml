@@ -1,6 +1,6 @@
 ---
 platform: linux
-image: docker:///allomov/cf-cli-only#6.9.0
+image: docker:///allomov/cf-cli-only-ubuntu#6.9.0
 inputs:
   - name: github-repository
 run:
