@@ -62,7 +62,7 @@ DOMAIN=${B_DOMAIN:-$(cat $MANIFEST | grep domain: | awk '{print $2}')}
 # create the GREEN application
 cf push $GREEN -f $MANIFEST -n $GREEN -p $app_folder
 # ensure it starts
-curl --fail -I "https://${GREEN}.${DOMAIN}"
+curl --fail --insecure -I "https://${GREEN}.${DOMAIN}"
 
 # add the GREEN application to each BLUE route to be load-balanced
 # TODO this output parsing seems a bit fragile...find a way to use more structured output
