@@ -17,6 +17,10 @@ app_name=$6
 app_folder=$7
 app_manifest=$8
 
+cf api --skip-ssl-validation $cf_api
+cf login -u $cf_username -p $cf_password
+cf target -o $cf_org -s $cf_space
+
 if [ $# -ne 1 ]; then
 	echo "Usage:\n\n\t./cf-blue-green-deployment <cf-api> <cf-username> <cf-password> <cf-org> <cf-space> <app-folder> <app-manifest>\n"
 	exit 1
@@ -48,7 +52,7 @@ trap on_fail ERR
 DOMAIN=${B_DOMAIN:-$(cat $MANIFEST | grep domain: | awk '{print $2}')}
 
 # create the GREEN application
-cf push $GREEN -f $MANIFEST -n $GREEN
+cf push -p $app_folder $GREEN -f $MANIFEST -n $GREEN
 # ensure it starts
 curl --fail -I "https://${GREEN}.${DOMAIN}"
 

@@ -4,7 +4,7 @@ image: docker:///allomov/cf-cli-only#6.9.0
 inputs:
   - name: github-repository
 run:
-  path: ./github-repository/pipeline/bin/blue-green-cf-deployment
+  path: ./github-repository/pipeline/bin/cf-blue-green-deployment
   args:
   - "{{cf-api}}"
   - "{{cf-username}}"
