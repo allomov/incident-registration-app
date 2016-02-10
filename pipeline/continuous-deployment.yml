@@ -5,25 +5,6 @@ resources:
   source:
     uri: https://github.com/allomov/incident-registration-app.git
     branch: master
-- name: cf-staging
-  type: cf
-  source:
-    api: {{cf-api}}
-    username: {{cf-username}}
-    password: {{cf-password}}
-    organization: {{cf-org}}
-    space: staging
-    skip_cert_check: true
-- name: cf-production
-  type: cf
-  source:
-    api: {{cf-api}}
-    username: {{cf-username}}
-    password: {{cf-password}}
-    organization: {{cf-org}}
-    space: production
-    skip_cert_check: false
-
 
 # ------------
 
@@ -48,16 +29,11 @@ jobs:
       - unit-tests
       - functional-tests
     trigger: true
-  - put: cf-staging
-    params:
-      path: github-repository
-      manifest: github-repository/pipeline/manifests/staging-manifest.yml
+  - task: deploy-to-stagging-cf
+    file: github-repository/pipeline/tasks/deploy-to-stagging.yml
 - name: acceptance-tests
   plan:
   - get: github-repository
-    passed: ["deploy-to-stagging-cf"]
-    trigger: true
-  - get: cf-staging
     passed: ["deploy-to-stagging-cf"]
     trigger: true
   - task: acceptance-tests
@@ -68,11 +44,5 @@ jobs:
     passed: ["acceptance-tests"]
     trigger: true
   - task: blue-green-deployment-to-production-cf
-    file: github-repository/pipeline/tasks/functional-tests.yml
-  - put: cf-production
-    params:
-      path: github-repository
-      manifest: github-repository/pipeline/manifests/production-manifest.yml
-
-
+    file: github-repository/pipeline/tasks/deploy-to-production.yml
 

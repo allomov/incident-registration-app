@@ -1,0 +1,16 @@
+---
+platform: linux
+image: docker:///allomov/cf-cli-only#6.9.0
+inputs:
+  - name: github-repository
+run:
+  path: ./github-repository/pipeline/bin/blue-green-cf-deployment
+  args:
+  - {{cf-api}}
+  - {{cf-username}}
+  - {{cf-password}}
+  - {{cf-org}}
+  - "production"
+  - "incident-registration"
+  - "github-repository"
+  - "./github-repository/pipeline/manifests/production-manifest.yml"
