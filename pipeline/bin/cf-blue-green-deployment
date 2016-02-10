@@ -27,8 +27,7 @@ echo $(env)
 
 
 cf api --skip-ssl-validation $cf_api
-cf login -u $cf_username -p $cf_password
-cf target -o $cf_org -s $cf_space
+cf login -u $cf_username -p $cf_password -o $cf_org -s $cf_space
 
 if [ $# -ne 1 ]; then
 	echo "Usage:\n\n\t./cf-blue-green-deployment <cf-api> <cf-username> <cf-password> <cf-org> <cf-space> <app-folder> <app-manifest>\n"
