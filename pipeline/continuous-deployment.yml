@@ -87,7 +87,7 @@ jobs:
           channel: {{slack-channel}}
           username: {{slack-username}}
           icon_emoji: ":robot_face:"
-          text: "Acceptance tests не прошли :( Проверьте этот лог http://192.168.100.4:8080/pipelines/continuous-deployment/jobs/acceptance-tests или посмотрите логи приложения с помощью команды `cf logs staging-incident-registration-green-version`"
+          text: "Acceptance tests не прошли :face_with_head_bandage: Проверьте этот лог http://192.168.100.4:8080/pipelines/continuous-deployment/jobs/acceptance-tests или посмотрите логи приложения с помощью команды `cf logs staging-incident-registration-green-version`"
     on_success:
       do:
       - put: slack-notification
@@ -95,7 +95,7 @@ jobs:
           channel: {{slack-channel}}
           username: {{slack-username}}
           icon_emoji: ":robot_face:"
-          text: "Acceptance tests прошли! Начинаю деплоить на production http://192.168.100.4:8080/pipelines/continuous-deployment/jobs/blue-green-deployment-to-production-cf"
+          text: "Acceptance tests прошли :smiley: Начинаю деплоить на production http://192.168.100.4:8080/pipelines/continuous-deployment/jobs/blue-green-deployment-to-production-cf"
 
 - name: blue-green-deployment-to-production-cf
   plan:

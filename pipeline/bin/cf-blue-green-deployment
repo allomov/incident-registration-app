@@ -6,7 +6,7 @@
 
 set -e
 set -o pipefail
-set -x
+# set -x
 
 if  [ -z "$cf_api" ] || [ -z "$cf_username" ] || [ -z "$cf_password" ] || \
   [ -z "$cf_org" ] || [ -z "$cf_space" ] || [ -z "$app_name" ] || [ -z "$app_folder" ]; then
