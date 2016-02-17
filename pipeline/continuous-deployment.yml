@@ -21,7 +21,7 @@ jobs:
       channel: {{slack-channel}}
       username: {{slack-username}}
       icon_url: {{slack-icon-url}}
-      text: "Обнаружена новая версия приложения incident-registration, запускаю тесты в pipeline: http://192.168.100.4:8080/pipelines/$BUILD_PIPELINE_NAME"
+      text: "Обнаружена новая версия приложения incident-registration, запускаю тесты в pipeline: http://192.168.100.4:8080/pipelines/continuous-deployment"
   - task: unit-tests
     file: github-repository/pipeline/tasks/unit-tests.yml        
 
@@ -45,6 +45,7 @@ jobs:
     passed:
       - unit-tests
       - functional-tests
+      - web-ui-tests
     trigger: true
   - put: slack-notification
     params:
@@ -86,10 +87,7 @@ jobs:
           channel: {{slack-channel}}
           username: {{slack-username}}
           icon_emoji: ":robot_face:"
-          text: |
-            Acceptance tests не прошли :( 
-            Проверьте этот лог http://192.168.100.4:8080/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
-            или посмотрите логи приложения с помощью команды `cf logs staging-incident-registration-green-version`
+          text: "Acceptance tests не прошли :( Проверьте этот лог http://192.168.100.4:8080/pipelines/continuous-deployment/jobs/acceptance-tests или посмотрите логи приложения с помощью команды `cf logs staging-incident-registration-green-version`"
     on_success:
       do:
       - put: slack-notification
@@ -97,9 +95,7 @@ jobs:
           channel: {{slack-channel}}
           username: {{slack-username}}
           icon_emoji: ":robot_face:"
-          text: |
-            Acceptance tests прошли!
-            Начинаю деплоить на production http://192.168.100.4:8080/pipelines/$BUILD_PIPELINE_NAME/jobs/blue-green-deployment-to-production-cf
+          text: "Acceptance tests прошли! Начинаю деплоить на production http://192.168.100.4:8080/pipelines/continuous-deployment/jobs/blue-green-deployment-to-production-cf"
 
 - name: blue-green-deployment-to-production-cf
   plan:
@@ -117,3 +113,9 @@ jobs:
         cf_space: "production"
         app_name: "incident-registration"
         app_folder: "github-repository"
+  - put: slack-notification
+    params:
+      channel: {{slack-channel}}
+      username: {{slack-username}}
+      icon_emoji: ":robot_face:"
+      text: "Приложение успешно обновлено: http://incident-registration.pcf.altoros.com"
