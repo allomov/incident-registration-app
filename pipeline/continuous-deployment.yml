@@ -6,6 +6,11 @@ resources:
     uri: https://github.com/allomov/incident-registration-app.git
     branch: master
 
+- name: slack-notification
+  type: slack-notification
+  source:
+    url: {{slack-notification-url}}
+
 jobs:
 - name: unit-tests
   plan:
@@ -13,12 +18,27 @@ jobs:
     trigger: true
   - task: unit-tests
     file: github-repository/pipeline/tasks/unit-tests.yml
+  - put: slack-notification
+    params:
+      channel: {{slack-channel}}
+      username: {{slack-username}}
+      icon_url: {{slack-icon-url}}
+      text: Unit tests прошли успешно
+        
+
 - name: functional-tests
   plan:
   - get: github-repository
     trigger: true
   - task: functional-tests
     file: github-repository/pipeline/tasks/functional-tests.yml
+  - put: slack-notification
+    params:
+      channel: {{slack-channel}}
+      username: {{slack-username}}
+      icon_url: {{slack-icon-url}}
+      text: Functional tests прошли успешно
+
 - name: deploy-to-staging-cf
   plan:
   - get: github-repository
@@ -37,6 +57,13 @@ jobs:
         cf_space: "staging"
         app_name: "staging-incident-registration"
         app_folder: "github-repository"
+  - put: slack-notification
+    params:
+      channel: {{slack-channel}}
+      username: {{slack-username}}
+      icon_url: {{slack-icon-url}}
+      text: |
+        Приложение успешно задеплоено на staging: http://staging-incident-registration.pcf.altoros.com
 
 - name: acceptance-tests
   plan:

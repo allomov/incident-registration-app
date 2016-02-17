@@ -12,3 +12,14 @@ fly intercept -j continuous-deployment/unit-tests -b 5
 fly set-pipeline -c pipeline/continuous-deployment.yml --load-vars-from pipeline/stub.yml -p continuous-deployment
 ```
 
+### How to add slack notifications
+
+use this [steps](https://github.com/starkandwayne/flowdock-concourse-notification-resource)
+
+```
+vagrant ssh # to concourse-lite
+vi /var/vcap/jobs/groundcrew/config/worker.json
+# add ,{"image":"docker:///allomov/slack-notification-resource","type":"slack-notification"}
+monit restart beacon
+```
+
