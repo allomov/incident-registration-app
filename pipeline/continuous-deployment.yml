@@ -16,15 +16,14 @@ jobs:
   plan:
   - get: github-repository
     trigger: true
-  - task: unit-tests
-    file: github-repository/pipeline/tasks/unit-tests.yml
   - put: slack-notification
     params:
       channel: {{slack-channel}}
       username: {{slack-username}}
       icon_url: {{slack-icon-url}}
-      text: Unit tests прошли успешно
-        
+      text: "Обнаружена новая версия приложения incident-registration, запускаю тесты в pipeline: http://192.168.100.4:8080/pipelines/$BUILD_PIPELINE_NAME"
+  - task: unit-tests
+    file: github-repository/pipeline/tasks/unit-tests.yml        
 
 - name: functional-tests
   plan:
@@ -32,12 +31,13 @@ jobs:
     trigger: true
   - task: functional-tests
     file: github-repository/pipeline/tasks/functional-tests.yml
-  - put: slack-notification
-    params:
-      channel: {{slack-channel}}
-      username: {{slack-username}}
-      icon_url: {{slack-icon-url}}
-      text: Functional tests прошли успешно
+
+- name: web-ui-tests
+  plan:
+  - get: github-repository
+    trigger: true
+  - task: web-ui-tests
+    file: github-repository/pipeline/tasks/functional-tests.yml
 
 - name: deploy-to-staging-cf
   plan:
@@ -46,6 +46,13 @@ jobs:
       - unit-tests
       - functional-tests
     trigger: true
+  - put: slack-notification
+    params:
+      channel: {{slack-channel}}
+      username: {{slack-username}}
+      icon_emoji: ":robot_face:"
+      text: "Все тесты успешно пройдены, начинаю деплоить на staging: http://staging-incident-registration.pcf.altoros.com"
+
   - task: deploy-to-stagging-cf
     file: github-repository/pipeline/tasks/deploy-to-staging.yml
     config:
@@ -57,13 +64,13 @@ jobs:
         cf_space: "staging"
         app_name: "staging-incident-registration"
         app_folder: "github-repository"
+
   - put: slack-notification
     params:
       channel: {{slack-channel}}
       username: {{slack-username}}
-      icon_url: {{slack-icon-url}}
-      text: |
-        Приложение успешно задеплоено на staging: http://staging-incident-registration.pcf.altoros.com
+      icon_emoji: ":robot_face:"
+      text: "Приложение успешно задеплоено на staging: http://staging-incident-registration.pcf.altoros.com"
 
 - name: acceptance-tests
   plan:
@@ -72,6 +79,28 @@ jobs:
     trigger: true
   - task: acceptance-tests
     file: github-repository/pipeline/tasks/acceptance-tests.yml
+    on_failure:
+      do:
+      - put: slack-notification
+        params:
+          channel: {{slack-channel}}
+          username: {{slack-username}}
+          icon_emoji: ":robot_face:"
+          text: |
+            Acceptance tests не прошли :( 
+            Проверьте этот лог http://192.168.100.4:8080/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
+            или посмотрите логи приложения с помощью команды `cf logs staging-incident-registration-green-version`
+    on_success:
+      do:
+      - put: slack-notification
+        params:
+          channel: {{slack-channel}}
+          username: {{slack-username}}
+          icon_emoji: ":robot_face:"
+          text: |
+            Acceptance tests прошли!
+            Начинаю деплоить на production http://192.168.100.4:8080/pipelines/$BUILD_PIPELINE_NAME/jobs/blue-green-deployment-to-production-cf
+
 - name: blue-green-deployment-to-production-cf
   plan:
   - get: github-repository
