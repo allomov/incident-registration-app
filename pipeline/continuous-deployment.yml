@@ -1,6 +1,6 @@
 ---
 resources:
-- name: github-repository
+- name: git-repository
   type: git
   source:
     uri: https://github.com/allomov/incident-registration-app.git
@@ -14,34 +14,34 @@ resources:
 jobs:
 - name: unit-tests
   plan:
-  - get: github-repository
+  - get: git-repository
     trigger: true
   - put: slack-notification
     params:
       channel: {{slack-channel}}
       username: {{slack-username}}
-      icon_url: {{slack-icon-url}}
+      icon_emoji: ":robot_face:"
       text: "Обнаружена новая версия приложения incident-registration, запускаю тесты в pipeline: http://192.168.100.4:8080/pipelines/continuous-deployment"
   - task: unit-tests
-    file: github-repository/pipeline/tasks/unit-tests.yml        
+    file: git-repository/pipeline/tasks/unit-tests.yml        
 
 - name: functional-tests
   plan:
-  - get: github-repository
+  - get: git-repository
     trigger: true
   - task: functional-tests
-    file: github-repository/pipeline/tasks/functional-tests.yml
+    file: git-repository/pipeline/tasks/functional-tests.yml
 
 - name: web-ui-tests
   plan:
-  - get: github-repository
+  - get: git-repository
     trigger: true
   - task: web-ui-tests
-    file: github-repository/pipeline/tasks/functional-tests.yml
+    file: git-repository/pipeline/tasks/functional-tests.yml
 
 - name: deploy-to-staging-cf
   plan:
-  - get: github-repository
+  - get: git-repository
     passed:
       - unit-tests
       - functional-tests
@@ -55,7 +55,7 @@ jobs:
       text: "Все тесты успешно пройдены, начинаю деплоить на staging: http://staging-incident-registration.pcf.altoros.com"
 
   - task: deploy-to-stagging-cf
-    file: github-repository/pipeline/tasks/deploy-to-staging.yml
+    file: git-repository/pipeline/tasks/deploy-to-staging.yml
     config:
       params:
         cf_api: {{cf-api}}
@@ -64,7 +64,7 @@ jobs:
         cf_org: {{cf-org}}
         cf_space: "staging"
         app_name: "staging-incident-registration"
-        app_folder: "github-repository"
+        app_folder: "git-repository"
 
   - put: slack-notification
     params:
@@ -75,11 +75,11 @@ jobs:
 
 - name: acceptance-tests
   plan:
-  - get: github-repository
+  - get: git-repository
     passed: ["deploy-to-staging-cf"]
     trigger: true
   - task: acceptance-tests
-    file: github-repository/pipeline/tasks/acceptance-tests.yml
+    file: git-repository/pipeline/tasks/acceptance-tests.yml
     on_failure:
       do:
       - put: slack-notification
@@ -99,11 +99,11 @@ jobs:
 
 - name: blue-green-deployment-to-production-cf
   plan:
-  - get: github-repository
+  - get: git-repository
     passed: ["acceptance-tests"]
     trigger: true
   - task: blue-green-deployment-to-production-cf
-    file: github-repository/pipeline/tasks/deploy-to-production.yml
+    file: git-repository/pipeline/tasks/deploy-to-production.yml
     config:
       params:
         cf_api: {{cf-api}}
@@ -112,7 +112,7 @@ jobs:
         cf_org: {{cf-org}}
         cf_space: "production"
         app_name: "incident-registration"
-        app_folder: "github-repository"
+        app_folder: "git-repository"
   - put: slack-notification
     params:
       channel: {{slack-channel}}

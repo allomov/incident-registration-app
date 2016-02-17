@@ -2,6 +2,6 @@
 platform: linux
 image: docker:///allomov/ruby#ci-demo
 inputs:
-  - name: github-repository
+  - name: git-repository
 run:
-  path: ./github-repository/pipeline/bin/run-acceptance-tests
+  path: ./git-repository/pipeline/bin/run-acceptance-tests

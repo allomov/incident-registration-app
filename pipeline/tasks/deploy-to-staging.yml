@@ -2,7 +2,7 @@
 platform: linux
 image: docker:///allomov/cf-cli-only-ubuntu#6.9.0
 inputs:
-  - name: github-repository
+  - name: git-repository
 params:
   cf_api:
   cf_username:
@@ -12,5 +12,5 @@ params:
   app_name:
   app_folder:
 run:
-  path: ./github-repository/pipeline/bin/cf-blue-green-deployment
-  args: ["./github-repository/pipeline/manifests/staging-manifest.yml"]
+  path: ./git-repository/pipeline/bin/cf-blue-green-deployment
+  args: ["./git-repository/pipeline/manifests/staging-manifest.yml"]
