@@ -19,10 +19,10 @@ RSpec.configure do |config|
 
   def get(path, options = {})
     if options[:with_latency]
-      start_time = 1
-      end_time = 5
-      super
-      self.latency = end_time.to_i - start_time.to_i
+      start_time = Time.now
+      super('/')
+      end_time = Time.now
+      self.latency = end_time - start_time
     else
       super(path)
     end
@@ -31,6 +31,6 @@ end
 
 class Fixnum
   def seconds
-    return self * 1000
+    return self
   end
 end
