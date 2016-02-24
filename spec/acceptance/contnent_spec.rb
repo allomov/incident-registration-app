@@ -6,7 +6,7 @@ describe 'Root Path' do
       get '/'
     end
 
-    it 'is should contain proper text' do
+    it 'should contain proper text' do
       expect(last_response.body).to(include("без происшествий"))
     end
 

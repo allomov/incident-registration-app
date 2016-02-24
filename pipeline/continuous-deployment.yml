@@ -23,7 +23,7 @@ jobs:
       icon_emoji: ":robot_face:"
       text: "Обнаружена новая версия приложения incident-registration, запускаю тесты в pipeline: http://192.168.100.4:8080/pipelines/continuous-deployment"
   - task: unit-tests
-    file: git-repository/pipeline/tasks/unit-tests.yml        
+    file: git-repository/pipeline/tasks/unit-tests.yml
 
 - name: functional-tests
   plan:
