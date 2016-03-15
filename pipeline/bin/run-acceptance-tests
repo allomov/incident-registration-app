@@ -2,4 +2,4 @@
 
 app_endpoint=$1
 cd git-repository
-bundle exec rake SPEC=spec/acceptance/contnent_spec.rb
+bundle exec rake SPEC=spec/acceptance/*_spec.rb
