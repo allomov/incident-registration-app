@@ -6,3 +6,5 @@ slack-notification-url: ""
 slack-channel: "#general"
 slack-username: "CI-Bot"
 slack-icon-url: ""
+git-repo-private-key: |
+    asdas

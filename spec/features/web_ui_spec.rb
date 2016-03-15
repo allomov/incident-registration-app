@@ -1,10 +1,8 @@
 require_relative '../spec_helper'
 
-describe 'Root Path' do
+describe 'Web UI' do
   describe 'GET /' do
-    before do
-      get '/'
-    end
+    before { get '/' }
 
     it 'should contain proper text' do
       expect(last_response.body).to(include("без происшествий"))

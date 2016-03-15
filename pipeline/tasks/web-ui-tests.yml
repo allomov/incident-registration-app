@@ -1,0 +1,7 @@
+---
+platform: linux
+image: docker:///allomov/ruby#ci-demo
+inputs:
+  - name: git-repository
+run:
+  path: ./git-repository/pipeline/bin/run-web-ui-tests

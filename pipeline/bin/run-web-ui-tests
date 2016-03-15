@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+cd git-repository
+bundle exec rake SPEC=spec/features/web_ui_spec.rb
