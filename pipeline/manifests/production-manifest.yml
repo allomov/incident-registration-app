@@ -4,3 +4,4 @@ applications:
   memory: 1G
   instances: 3
   command: rake assetpack:precompile && rackup -p $PORT
+  buildpack: https://github.com/cloudfoundry/ruby-buildpack
