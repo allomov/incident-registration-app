@@ -97,7 +97,7 @@ jobs:
           channel: {{slack-channel}}
           username: {{slack-username}}
           icon_emoji: ":robot_face:"
-          text: "Acceptance tests quited with errors :face_with_head_bandage: Check the logs http://192.168.100.4:8080/pipelines/continuous-deployment/jobs/acceptance-tests or check app logs with this command: `cf logs staging-incident-registration-green-version --recent`"
+          text: "Acceptance tests failed :face_with_head_bandage: Check the logs http://192.168.100.4:8080/pipelines/continuous-deployment/jobs/acceptance-tests or check app logs with this command: `cf logs staging-incident-registration-green-version --recent`"
     on_success:
       do:
       - put: slack-notification
