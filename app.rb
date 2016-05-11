@@ -21,7 +21,6 @@ class App < Sinatra::Base
       '/vendor/backstretch/jquery.backstretch.js',
       '/javascripts/main.js' ]
     css :application, '/stylesheets/application.css', [
-      # 'stylesheets/flipclock.css',
       '/stylesheets/main.css' ]
     js_compression :jsmin
     css_compression :simple
