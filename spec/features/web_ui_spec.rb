@@ -9,7 +9,7 @@ describe 'Web UI' do
     end
 
     it 'days should be a number' do
-      expect(last_response.body).to have_tag('.days', :text => /\d+/i)
+      expect(last_response.body).to have_tag('.days', :text => /^\d+$/i)
     end
 
   end
