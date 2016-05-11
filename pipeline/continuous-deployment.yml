@@ -39,7 +39,7 @@ jobs:
           channel: {{slack-channel}}
           username: {{slack-username}}
           icon_emoji: ":robot_face:"
-          text: "Обнаружена новая версия приложения incident-registration, запускаю тесты в pipeline: http://192.168.100.4:8080/pipelines/continuous-deployment"
+          text: "The new version of incident-registration application is out, I am currently running pipeline with tests for it: http://192.168.100.4:8080/pipelines/continuous-deployment"
     on_failure:
       do:
       - put: slack-notification
@@ -47,7 +47,7 @@ jobs:
           channel: {{slack-channel}}
           username: {{slack-username}}
           icon_emoji: ":robot_face:"
-          text: "web-ui-tests не прошли, посмотрите состояние тестов тут: http://192.168.100.4:8080/pipelines/continuous-deployment"
+          text: "web-ui-tests failed, you can find tests: http://192.168.100.4:8080/pipelines/continuous-deployment"
 
 - name: deploy-to-staging-cf
   plan:
@@ -62,7 +62,7 @@ jobs:
       channel: {{slack-channel}}
       username: {{slack-username}}
       icon_emoji: ":robot_face:"
-      text: "Все тесты успешно пройдены, начинаю деплоить на staging: http://staging-incident-registration.pcf.altoros.com"
+      text: "All tests passed successfully on staging environment: http://staging-incident-registration.pcf-den.altoros.com"
 
   - task: deploy-to-stagging-cf
     file: git-repository/pipeline/tasks/deploy-to-staging.yml
@@ -81,7 +81,7 @@ jobs:
       channel: {{slack-channel}}
       username: {{slack-username}}
       icon_emoji: ":robot_face:"
-      text: "Приложение успешно задеплоено на staging: http://staging-incident-registration.pcf.altoros.com"
+      text: "Application is successfully deployed to staging environment: http://staging-incident-registration.pcf-den.altoros.com"
 
 - name: acceptance-tests
   plan:
@@ -97,7 +97,7 @@ jobs:
           channel: {{slack-channel}}
           username: {{slack-username}}
           icon_emoji: ":robot_face:"
-          text: "Acceptance tests не прошли :face_with_head_bandage: Проверьте этот лог http://192.168.100.4:8080/pipelines/continuous-deployment/jobs/acceptance-tests или посмотрите логи приложения с помощью команды `cf logs staging-incident-registration-green-version`"
+          text: "Acceptance tests quited with errors :face_with_head_bandage: Check the logs http://192.168.100.4:8080/pipelines/continuous-deployment/jobs/acceptance-tests or check app logs with this command: `cf logs staging-incident-registration-green-version --recent`"
     on_success:
       do:
       - put: slack-notification
@@ -105,7 +105,7 @@ jobs:
           channel: {{slack-channel}}
           username: {{slack-username}}
           icon_emoji: ":robot_face:"
-          text: "Acceptance tests прошли :smiley: Начинаю деплоить на production http://192.168.100.4:8080/pipelines/continuous-deployment/jobs/blue-green-deployment-to-production-cf"
+          text: "Acceptance tests passed :smiley: Starting deployment to production http://192.168.100.4:8080/pipelines/continuous-deployment/jobs/blue-green-deployment-to-production-cf"
 
 - name: blue-green-deployment-to-production-cf
   plan:
@@ -128,4 +128,4 @@ jobs:
       channel: {{slack-channel}}
       username: {{slack-username}}
       icon_emoji: ":robot_face:"
-      text: "Приложение успешно обновлено: http://incident-registration.pcf.altoros.com"
+      text: "Application is updated successfully: http://incident-registration.pcf-den.altoros.com"
