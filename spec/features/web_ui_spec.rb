@@ -5,7 +5,7 @@ describe 'Web UI' do
     before { get '/' }
 
     it 'should contain proper text' do
-      expect(last_response.body).to(include("без происшествий"))
+      expect(last_response.body).to(include("without an accident"))
     end
 
     it 'days should be a number' do
