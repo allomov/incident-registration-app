@@ -6,6 +6,7 @@ This app is used to demonstrate Continuous Deployment circle with Concouce CI an
 
 ```
 fly set-pipeline -t altoros -c pipeline/continuous-deployment.yml -p continuous-deployment --load-vars-from pipeline/stub.yml
+fly -t altoros unpause continuous-deployment
 
 fly -t altoros intercept -j continuous-deployment/unit-tests
 
