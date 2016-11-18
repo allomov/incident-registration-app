@@ -5,11 +5,11 @@ This app is used to demonstrate Continuous Deployment circle with Concouce CI an
 ### How to install
 
 ```
-fly set-pipeline -t tutorial -c pipeline/continuous-deployment.yml -p continuous-deployment --load-vars-from pipeline/stub.yml
+fly set-pipeline -t altoros -c pipeline/continuous-deployment.yml -p continuous-deployment --load-vars-from pipeline/stub.yml
 
-fly intercept -j continuous-deployment/unit-tests
+fly -t altoros intercept -j continuous-deployment/unit-tests
 
-fly set-pipeline -c pipeline/continuous-deployment.yml --load-vars-from pipeline/stub.yml -p continuous-deployment
+fly -t altoros set-pipeline -c pipeline/continuous-deployment.yml --load-vars-from pipeline/stub.yml -p continuous-deployment
 ```
 
 ### How to add slack notifications

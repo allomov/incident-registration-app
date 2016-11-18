@@ -1,6 +1,6 @@
 ---
 platform: linux
-image: docker:///allomov/cf-cli-only-ubuntu#6.9.0
+image: docker:///allomov/cf-cli-only-ubuntu#6.22.2
 inputs:
   - name: git-repository
 params:

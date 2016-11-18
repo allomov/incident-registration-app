@@ -1,7 +1,7 @@
 ---
 applications:
-- name: staging-incident-registration
-  buildpack: https://github.com/cloudfoundry/ruby-buildpack
+- name: incident
+  # buildpack: https://github.com/cloudfoundry/ruby-buildpack
   # path: .
   # memory: 512M
   # command: rackup -p $PORT

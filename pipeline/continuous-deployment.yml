@@ -1,4 +1,11 @@
 ---
+resource_types:
+- name: slack-notification
+  type: docker-image
+  source:
+    repository: cfcommunity/slack-notification-resource
+    tag: latest
+
 resources:
 - name: git-repository
   type: git
@@ -73,7 +80,7 @@ jobs:
         cf_password: {{cf-password}}
         cf_org: {{cf-org}}
         cf_space: "staging"
-        app_name: "staging-incident-registration"
+        app_name: "incident-staging"
         app_folder: "git-repository"
 
   - put: slack-notification
@@ -120,8 +127,8 @@ jobs:
         cf_username: {{cf-username}}
         cf_password: {{cf-password}}
         cf_org: {{cf-org}}
-        cf_space: "production"
-        app_name: "incident-registration"
+        cf_space: "prod"
+        app_name: "incident-prod"
         app_folder: "git-repository"
   - put: slack-notification
     params:
