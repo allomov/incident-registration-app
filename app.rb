@@ -27,7 +27,6 @@ class App < Sinatra::Base
   end
 
   get "/" do
-    sleep 5
     slim :index
   end
   
