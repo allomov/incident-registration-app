@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
-# Blue-green deployment script. Usage:
+# blue_app_name-green_app_name deployment script. Usage:
 #
 #   ./cf-blue-green-deployment <app-manifest>
 
 set -e
 set -o pipefail
 # set -x
+
 
 if  [ -z "$cf_api" ] || [ -z "$cf_username" ] || [ -z "$cf_password" ] || \
     [ -z "$cf_org" ] || [ -z "$cf_space" ] || [ -z "$app_name" ] || [ -z "$app_folder" ]; then
@@ -17,8 +18,6 @@ if  [ -z "$cf_api" ] || [ -z "$cf_username" ] || [ -z "$cf_password" ] || \
   exit 1
 fi
 
-source 
-
 cf api --skip-ssl-validation $cf_api
 cf login -u $cf_username -p $cf_password -o $cf_org -s $cf_space
 
@@ -27,47 +26,26 @@ cf login -u $cf_username -p $cf_password -o $cf_org -s $cf_space
 #   exit 1
 # fi
 
-BLUE=$app_name
-GREEN="${BLUE}-green-version"
+version=$(cat version/version)
+escaped_versoin=$(echo ${version} | sed 's/\./-/g')
 
-finally ()
-{
-  # we don't want to keep the sensitive information around
-  rm $MANIFEST
-}
+blue_app_name=$app_name
+green_app_name="$blue_app_name-$escaped_versoin"
 
-on_fail () {
-  finally
-  echo "DEPLOY FAILED - you may need to check 'cf apps' and 'cf routes' and do manual cleanup"
-}
-
-
-# pull the up-to-date manifest from the BLUE (existing) application
-MANIFEST=$(mktemp -t "${BLUE}_manifest.XXXXXXXXXX")
-cf create-app-manifest $BLUE -p $MANIFEST
-
-# set up try/catch
-# http://stackoverflow.com/a/185900/358804
-trap on_fail ERR
-
-DOMAIN=${B_DOMAIN:-$(cat $MANIFEST | grep domain: | awk '{print $2}')}
-
-# create the GREEN application
-cf push $GREEN -f $MANIFEST -n $GREEN -p $app_folder
+# create the green_app_name application
+cf push $green_app_name -n $green_app_name -p $app_folder
 # ensure it starts
-curl --fail --insecure -I "https://${GREEN}.${DOMAIN}"
+# curl --fail --insecure -I "https://${green_app_name}.${DOMAIN}"
 
-# add the GREEN application to each BLUE route to be load-balanced
+# add the green_app_name application to each blue_app_name route to be load-balanced
 # TODO this output parsing seems a bit fragile...find a way to use more structured output
-# cf routes | tail -n +4 | grep $BLUE | awk '{print $3" -n "$2}' | xargs -n 3 cf map-route $GREEN
+# cf routes | tail -n +4 | grep $blue_app_name | awk '{print $3" -n "$2}' | xargs -n 3 cf map-route $green_app_name
 
-cf map-route $GREEN $DOMAIN -n $BLUE
+# cf map-route $green_app_name $DOMAIN -n $blue_app_name
 
 # cleanup
-# TODO consider 'stop'-ing the BLUE instead of deleting it, so that depedencies are cached for next time
-cf delete $BLUE -f
-cf rename $GREEN $BLUE
-# cf delete-route $DOMAIN -n $GREEN -f
-finally
+# TODO consider 'stop'-ing the blue_app_name instead of deleting it, so that depedencies are cached for next time
+# cf delete $blue_app_name -f
+# cf rename $green_app_name $blue_app_name
 
 echo "DONE"
