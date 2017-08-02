@@ -5,12 +5,12 @@ This app is used to demonstrate Continuous Deployment circle with Concouce CI an
 ### How to install
 
 ```
-fly set-pipeline -t lite -c ci/pipeline.yml -p incident-app-dev --load-vars-from ci/stub.yml
-fly -t lite unpause continuous-deployment
+fly set-pipeline -t lite -c ci/pipeline.yml -p deploy-dev --load-vars-from ci/stub.yml
 
-fly -t lite intercept -j continuous-deployment/unit-tests
+fly -t lite unpause deploy-dev
+fly -t lite intercept -j deploy-dev/unit-tests
 
-fly -t lite set-pipeline -c ci/pipeline.yml --load-vars-from ci/stub.yml -p continuous-deployment
+fly -t lite set-pipeline -c ci/pipeline.yml --load-vars-from ci/stub.yml -p deploy-dev
 ```
 
 ### How to add slack notifications
