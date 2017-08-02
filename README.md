@@ -7,7 +7,7 @@ This app is used to demonstrate Continuous Deployment circle with Concouce CI an
 ```
 fly set-pipeline -t lite -c ci/pipeline.yml -p deploy-dev --load-vars-from ci/stub.yml
 
-fly -t lite unpause deploy-dev
+fly -t lite unpause-pipeline -p deploy-dev
 fly -t lite intercept -j deploy-dev/unit-tests
 
 fly -t lite set-pipeline -c ci/pipeline.yml --load-vars-from ci/stub.yml -p deploy-dev
