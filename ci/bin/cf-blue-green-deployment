@@ -9,14 +9,13 @@ set -o pipefail
 # set -x
 
 if  [ -z "$cf_api" ] || [ -z "$cf_username" ] || [ -z "$cf_password" ] || \
-  [ -z "$cf_org" ] || [ -z "$cf_space" ] || [ -z "$app_name" ] || [ -z "$app_folder" ]; then
+    [ -z "$cf_org" ] || [ -z "$cf_space" ] || [ -z "$app_name" ] || [ -z "$app_folder" ]; then
   echo "You need to define following environment variables: "
   echo
   echo "    cf_api, cf_username, cf_password, cf_org, cf_space, app_name, app_folder"
   echo
   exit 1
 fi
-
 
 cf api --skip-ssl-validation $cf_api
 cf login -u $cf_username -p $cf_password -o $cf_org -s $cf_space

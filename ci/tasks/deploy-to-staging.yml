@@ -1,6 +1,5 @@
 ---
 platform: linux
-
 image_resource:
   type: docker-image
   source:
@@ -18,5 +17,5 @@ params:
   app_name:
   app_folder:
 run:
-  path: ./git-repository/pipeline/bin/cf-blue-green-deployment
-  args: ["./git-repository/pipeline/manifests/production-manifest.yml"]
+  path: ./git-repository/ci/bin/cf-blue-green-deployment
+  args: ["./git-repository/ci/manifests/staging-manifest.yml"]

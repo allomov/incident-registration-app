@@ -10,4 +10,4 @@ image_resource:
 inputs:
   - name: git-repository
 run:
-  path: ./git-repository/pipeline/bin/run-acceptance-tests
+  path: ./git-repository/ci/bin/run-acceptance-tests
