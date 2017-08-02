@@ -1,3 +1,0 @@
-[submodule "ci/helpers"]
-	path = ci/helpers
-	url = https://github.com/Altoros/concourse-helpers.git

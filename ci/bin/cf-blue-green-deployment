@@ -17,6 +17,8 @@ if  [ -z "$cf_api" ] || [ -z "$cf_username" ] || [ -z "$cf_password" ] || \
   exit 1
 fi
 
+source 
+
 cf api --skip-ssl-validation $cf_api
 cf login -u $cf_username -p $cf_password -o $cf_org -s $cf_space
 
